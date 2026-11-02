@@ -21,7 +21,7 @@ one navigable globe.
 4. Open **Weather** for the timestamped Denver observation.
 
 The hosted demo tracks a 60-nautical-mile area around Denver, with one shared
-ADSB.lol poll every 30 seconds regardless of viewer count. Worldwide map labels
+ADSB.fi poll every 30 seconds regardless of viewer count. Worldwide map labels
 do not imply worldwide traffic coverage. Route references are published
 callsign associations, not confirmed current flight plans. Aircraft are never
 silently replaced with fictional data if the live feed fails.
@@ -34,7 +34,7 @@ limits. This is a project demonstration, not an operational aviation tool.
 ## Run locally
 
 Requires Python 3.12+, [uv](https://docs.astral.sh/uv/), Node.js 24, and a browser
-with WebGL2. No API key or database is needed for the default live viewer.
+with WebGL2. No API key or database is needed for the ADSB.fi demo viewer.
 
 ```bash
 git clone https://github.com/Daytwan/skybyday.git
@@ -42,7 +42,7 @@ cd skybyday
 uv sync --project backend --locked
 npm --prefix frontend ci
 npm --prefix frontend run build
-uv run --project backend --locked uvicorn skytrace.demo:create_app --factory \
+SKYTRACE_PROVIDER=adsbfi uv run --project backend --locked uvicorn skytrace.demo:create_app --factory \
   --host 127.0.0.1 --port 8000 --workers 1 --ws websockets-sansio
 ```
 
@@ -88,7 +88,9 @@ are excluded.
 ## License and attribution
 
 Original code is [MIT licensed](LICENSE). Third-party data has separate terms:
-ADSB.lol aircraft data uses [ODbL 1.0](https://www.adsb.lol/docs/privacy-license/);
+The public demo uses ADSB.fi for personal, non-commercial use with attribution;
+see [provider access and terms](docs/demo-provider.md). The optional
+ADSB.lol adapter uses [ODbL 1.0](https://www.adsb.lol/docs/privacy-license/);
 the bundled VRS standing-route reference is CC0; GeoNames city labels are CC BY
 4.0. CesiumJS is Apache-2.0. Map, terrain, airport, and building sources retain
 their notices in [Map sources](frontend/public/map-attribution.html), also linked

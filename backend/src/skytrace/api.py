@@ -141,7 +141,7 @@ async def fleet_routes(request: Request, response: Response) -> FleetRouteRespon
         FleetRouteReference(
             icao24=plane.icao24,
             route=service.resolve_reference(plane.callsign)
-            if plane.source == "adsblol"
+            if plane.source in {"adsblol", "adsbfi"}
             else RouteResponse(callsign=plane.callsign, status="unknown"),
         )
         for plane in message.data.aircraft
@@ -202,8 +202,10 @@ async def aircraft_route(
     response.headers["Cache-Control"] = "no-store"
     for plane in runtime_for(request).snapshot().data.aircraft:
         if plane.icao24 == icao24:
-            if plane.source != "adsblol":
+            if plane.source not in {"adsblol", "adsbfi"}:
                 return RouteResponse(callsign=plane.callsign, status="unknown")
+            if plane.source == "adsbfi":
+                return request.app.state.routes.resolve_reference(plane.callsign)
             return await request.app.state.routes.get(plane.callsign)
     raise HTTPException(404, "Aircraft is not in the current cache")
 

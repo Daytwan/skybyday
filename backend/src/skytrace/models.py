@@ -8,7 +8,7 @@ from pydantic import AwareDatetime, BaseModel, ConfigDict, Field, field_validato
 Latitude = Annotated[float, Field(ge=-90, le=90)]
 Longitude = Annotated[float, Field(ge=-180, le=180)]
 Bearing = Annotated[float, Field(ge=0, lt=360)]
-SourceName = Literal["adsblol", "synthetic"]
+SourceName = Literal["adsblol", "adsbfi", "synthetic"]
 
 
 class FrozenModel(BaseModel):

@@ -1,4 +1,4 @@
-export type Source = "synthetic" | "adsblol";
+export type Source = "synthetic" | "adsblol" | "adsbfi";
 export interface CoverageRegion {
   id: string;
   name: string;
@@ -168,7 +168,7 @@ export function parseSnapshot(value: unknown): Snapshot {
   const root = record(value);
   if (root.type !== "snapshot" || root.schema_version !== 1) return invalid();
   const data = record(root.data);
-  const source = choice(data.source, ["synthetic", "adsblol"]);
+  const source = choice(data.source, ["synthetic", "adsblol", "adsbfi"]);
   const tracking = record(root.tracking);
   const area = record(tracking.area);
   const stale = number(tracking.stale_after_seconds, 1, 3600);

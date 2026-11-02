@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     area_radius_nm: int = Field(default=60, ge=1, le=250)
     coverage_preset: Literal["den", "world_hubs_v1"] = "den"
     poll_interval_seconds: float = Field(default=30, ge=30, le=3600)
-    provider: Literal["synthetic", "adsblol"] = "adsblol"
+    provider: Literal["synthetic", "adsblol", "adsbfi"] = "adsblol"
     max_aircraft: int = Field(default=2000, ge=1, le=10_000)
     stale_after_seconds: float = Field(default=90, ge=1, le=3600)
     expire_after_seconds: float = Field(default=300, ge=1, le=86400)
@@ -97,6 +97,12 @@ class Settings(BaseSettings):
 
     @model_validator(mode="after")
     def stale_before_expiry(self) -> Self:
+        if self.provider == "adsbfi" and (
+            self.history_enabled or self.airlabs_mode != "off" or self.coverage_preset != "den"
+        ):
+            raise ValueError(
+                "ADSB.fi demo requires regional coverage, history off, and AirLabs off"
+            )
         if self.stale_after_seconds >= self.expire_after_seconds:
             raise ValueError("stale_after_seconds must be less than expire_after_seconds")
         if self.history_enabled and self.history_database_url is None:

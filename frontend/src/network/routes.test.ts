@@ -111,6 +111,27 @@ test("one local fleet fetch per membership, with callsign and restart isolation"
   fleet.destroy();
 });
 
+test("ADSB.fi snapshots retain their source and use local route references", async () => {
+  const snapshot = fixture();
+  snapshot.data.source = "adsbfi";
+  snapshot.data.aircraft = snapshot.data.aircraft.slice(0, 1).map((plane) => ({
+    ...plane,
+    source: "adsbfi",
+    icao24: "a00001",
+    callsign: "UAL123",
+  }));
+  const parsed = parseSnapshot(snapshot);
+  assert.equal(parsed.data.source, "adsbfi");
+  assert.equal(parsed.data.aircraft[0]?.source, "adsbfi");
+  const fleet = new FleetRoutes(() => {});
+  await fleet.update(
+    parsed,
+    (async () => new Response(JSON.stringify(response()))) as typeof fetch,
+  );
+  assert.equal(fleet.get("a00001", "UAL123")?.status, "reference");
+  fleet.destroy();
+});
+
 test("coverage parser validates scope identity, geometry and cadence", () => {
   const snapshot = fixture();
   const extended = {

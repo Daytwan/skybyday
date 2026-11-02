@@ -2,7 +2,8 @@
 
 The public demo uses one Python process for the built frontend, HTTP API, and
 WebSocket feed. It binds only to `127.0.0.1:8091`; the existing web server handles
-HTTPS for `fly.donutmath.com`. No database or paid API key is required.
+HTTPS for `fly.donutmath.com`. No database or paid API key is required. The hosted demo uses ADSB.fi; see
+[provider access and terms](demo-provider.md).
 
 ## Prepare a release
 

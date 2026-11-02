@@ -12,7 +12,7 @@ Group=skybyday
 WorkingDirectory=/opt/skybyday/current
 Environment=PYTHONDONTWRITEBYTECODE=1
 Environment=PYTHONUNBUFFERED=1
-Environment=SKYTRACE_PROVIDER=adsblol
+Environment=SKYTRACE_PROVIDER=adsbfi
 Environment=SKYTRACE_COVERAGE_PRESET=den
 Environment=SKYTRACE_AIRLABS_MODE=off
 Environment=SKYTRACE_HISTORY_ENABLED=false

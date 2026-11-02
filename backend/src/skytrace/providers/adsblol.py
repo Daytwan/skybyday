@@ -22,6 +22,7 @@ from skytrace.models import (
     RejectionCount,
     ResponseMetadata,
     SourceAttribution,
+    SourceName,
     TrackingArea,
 )
 from skytrace.providers.base import AircraftProvider, ProviderError, utc_now
@@ -81,7 +82,7 @@ def _convert(value: float | None, factor: float) -> float | None:
 
 
 def _observation(
-    row: WireAircraft, timestamp: datetime, received_at: datetime
+    row: WireAircraft, timestamp: datetime, received_at: datetime, source: SourceName = "adsblol"
 ) -> AircraftObservation:
     if (row.lat is None) != (row.lon is None):
         raise ValueError("Partial coordinate pair")
@@ -89,7 +90,7 @@ def _observation(
     baro_altitude = row.alt_baro if isinstance(row.alt_baro, float) else None
     return AircraftObservation(
         icao24=row.hex.lower(),
-        source="adsblol",
+        source=source,
         source_type=row.type,
         provider_timestamp=timestamp,
         received_at=received_at,
@@ -122,6 +123,8 @@ def normalize_payload(
     max_snapshot_age_seconds: float = 90,
     future_tolerance_seconds: float = 5,
     http: ResponseMetadata | None = None,
+    source: SourceAttribution = ADSBLOL_SOURCE,
+    display_name: str = "ADSB.lol",
 ) -> ProviderBatch:
     """Decode v2's millisecond epoch explicitly, independently of host receipt time."""
     if received_at.tzinfo is None:
@@ -131,12 +134,12 @@ def normalize_payload(
         envelope = WireEnvelope.model_validate(payload)
         timestamp = datetime.fromtimestamp(envelope.now / 1000, UTC)
     except (ValidationError, ValueError, OverflowError, OSError) as error:
-        raise ProviderError("Invalid ADSB.lol response envelope") from error
+        raise ProviderError(f"Invalid {display_name} response envelope") from error
     if envelope.total != len(envelope.ac):
-        raise ProviderError("ADSB.lol response count mismatch")
+        raise ProviderError(f"{display_name} response count mismatch")
     age = (received_at - timestamp).total_seconds()
     if age > max_snapshot_age_seconds or age < -future_tolerance_seconds:
-        raise ProviderError("ADSB.lol snapshot is stale or its timestamp is in the future")
+        raise ProviderError(f"{display_name} snapshot is stale or its timestamp is in the future")
 
     aircraft = []
     rejected = Counter()
@@ -146,13 +149,13 @@ def normalize_payload(
             if row.hex.startswith("~"):
                 rejected["non_icao_address"] += 1
                 continue
-            aircraft.append(_observation(row, timestamp, received_at))
+            aircraft.append(_observation(row, timestamp, received_at, source.name))
         except (ValidationError, ValueError, OverflowError):
             rejected["invalid_record"] += 1
     if envelope.ac and not aircraft:
-        raise ProviderError("No valid aircraft in non-empty ADSB.lol response")
+        raise ProviderError(f"No valid aircraft in non-empty {display_name} response")
     return ProviderBatch(
-        source=ADSBLOL_SOURCE,
+        source=source,
         provider_timestamp=timestamp,
         received_at=received_at,
         aircraft=tuple(aircraft),
@@ -189,6 +192,8 @@ class CapturedResponse:
 
 class AdsbLolProvider(AircraftProvider):
     source = "adsblol"
+    attribution = ADSBLOL_SOURCE
+    display_name = "ADSB.lol"
 
     def __init__(
         self,
@@ -204,12 +209,15 @@ class AdsbLolProvider(AircraftProvider):
         self.max_snapshot_age_seconds = max_snapshot_age_seconds
         self.last_response: CapturedResponse | None = None
 
-    async def fetch(self, area: TrackingArea) -> ProviderBatch:
-        self.last_response = None
-        url = (
+    def request_url(self, area: TrackingArea) -> str:
+        return (
             f"https://api.adsb.lol/v2/point/{area.latitude_deg}/"
             f"{area.longitude_deg}/{area.radius_nm}"
         )
+
+    async def fetch(self, area: TrackingArea) -> ProviderBatch:
+        self.last_response = None
+        url = self.request_url(area)
         try:
             async with asyncio.timeout(15):
                 async with self.client.stream(
@@ -235,7 +243,7 @@ class AdsbLolProvider(AircraftProvider):
                     self.last_response = CapturedResponse(metadata, b"")
                     if response.status_code != 200:
                         raise ProviderError(
-                            f"ADSB.lol returned HTTP {response.status_code}",
+                            f"{self.display_name} returned HTTP {response.status_code}",
                             retryable=response.status_code == 429 or response.status_code >= 500,
                             retry_after_seconds=parse_retry_after(
                                 metadata.retry_after, metadata.received_at
@@ -245,23 +253,29 @@ class AdsbLolProvider(AircraftProvider):
                         response.headers.get("content-type", "").split(";")[0].strip().lower()
                         != "application/json"
                     ):
-                        raise ProviderError("ADSB.lol returned a non-JSON response")
+                        raise ProviderError(f"{self.display_name} returned a non-JSON response")
                     body = bytearray()
                     async for chunk in response.aiter_bytes(chunk_size=65536):
                         if len(body) + len(chunk) > self.max_response_bytes:
-                            raise ProviderError("ADSB.lol response exceeds the byte limit")
+                            raise ProviderError(
+                                f"{self.display_name} response exceeds the byte limit"
+                            )
                         body.extend(chunk)
                     metadata = metadata.model_copy(update={"received_at": self.clock()})
                     self.last_response = CapturedResponse(metadata, bytes(body))
                     try:
                         payload = json.loads(body)
                     except (ValueError, UnicodeError) as error:
-                        raise ProviderError("ADSB.lol returned malformed JSON") from error
+                        raise ProviderError(
+                            f"{self.display_name} returned malformed JSON"
+                        ) from error
                     return normalize_payload(
                         payload,
                         received_at=metadata.received_at,
                         http=metadata,
                         max_snapshot_age_seconds=self.max_snapshot_age_seconds,
+                        source=self.attribution,
+                        display_name=self.display_name,
                     )
         except (httpx.HTTPError, TimeoutError) as error:
-            raise ProviderError("ADSB.lol request failed or timed out") from error
+            raise ProviderError(f"{self.display_name} request failed or timed out") from error

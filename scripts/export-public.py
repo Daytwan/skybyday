@@ -13,7 +13,7 @@ FILES = [".gitignore", ".env.example", ".nvmrc", "LICENSE", "compose.yaml"]
 DIRECTORIES = ["backend", "frontend", "deploy", "scripts"]
 DOCS = [
     "api.md", "architecture.md", "data-model.md", "decisions.md", "deployment.md",
-    "history.md", "maps.md", "provider-research.md", "roadmap.md",
+    "demo-provider.md", "history.md", "maps.md", "provider-research.md", "roadmap.md",
     "route-reference-snapshot.md", "route-coverage.md", "route-source-coverage.md",
     "skyline-sources.md", "terrain-sources.md",
 ]

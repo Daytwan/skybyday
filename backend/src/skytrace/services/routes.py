@@ -132,13 +132,19 @@ class RouteService:
 
         lookup_callsign = normalize_vrs_callsign(callsign, icao_aliases=self.icao_aliases)
         if lookup_callsign is None:
-            return RouteResponse(callsign=callsign, status="unknown", reason="invalid_callsign")
+            return RouteResponse(
+                callsign=callsign,
+                status="unknown",
+                reason="invalid_callsign",
+                source="VRS standing-data snapshot",
+            )
         if not self.reference_index.source_commit:
             return RouteResponse(
                 callsign=callsign,
                 lookup_callsign=lookup_callsign,
                 status="unavailable",
                 reason="source_error",
+                source="VRS standing-data snapshot",
             )
         airport_codes = self.reference_index.lookup(lookup_callsign)
         common = {

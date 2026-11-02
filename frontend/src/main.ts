@@ -23,7 +23,11 @@ import {
   normalizeHistoryRange,
 } from "./network/history.ts";
 import { FleetRoutes, routeLabel } from "./network/routes.ts";
-import { fetchSnapshot, type Snapshot } from "./network/snapshot.ts";
+import {
+  fetchSnapshot,
+  type Snapshot,
+  type Source,
+} from "./network/snapshot.ts";
 import { SnapshotStream } from "./network/stream.ts";
 import {
   type DisplayPreferences,
@@ -237,7 +241,8 @@ function setDefaultHistoryRange(): void {
   historyEnd.value = datetimeInputValue(end);
 }
 
-function historySourceName(source: "synthetic" | "adsblol"): string {
+function historySourceName(source: Source): string {
+  if (source === "adsbfi") return "Live · ADSB.fi";
   return source === "synthetic" ? "Synthetic · demo data" : "Live · ADSB.lol";
 }
 
@@ -248,7 +253,7 @@ function setHistoryStatus(message: string, error = false): void {
 
 function renderHistoricalSource(history: HistoryResponse): void {
   element("#source-label").textContent =
-    `Replay · ${history.source === "adsblol" ? "ADSB.lol" : "synthetic"}`;
+    `Replay · ${history.source === "adsbfi" ? "ADSB.fi" : history.source === "adsblol" ? "ADSB.lol" : "synthetic"}`;
   const count = history.observations.length;
   element("#source-status").textContent =
     `${utcLabel(Date.parse(history.start))} → ${utcLabel(Date.parse(history.end))} · ${count} observations`;
@@ -282,13 +287,16 @@ function renderLiveSource(snapshot: Snapshot): void {
       ? `Poller ${snapshot.poller_status}`
       : `Provider ${snapshot.data.status}${snapshot.data.last_error ? ` · ${snapshot.data.last_error}` : ""}`;
   const credit = element("#source-credit");
-  if (snapshot.data.source === "adsblol") {
+  if (snapshot.data.source === "adsblol" || snapshot.data.source === "adsbfi") {
+    const adsbfi = snapshot.data.source === "adsbfi";
     const source = document.createElement("a");
-    source.href = "https://www.adsb.lol/";
-    source.textContent = "ADSB.lol";
+    source.href = adsbfi ? "https://adsb.fi/" : "https://www.adsb.lol/";
+    source.textContent = adsbfi ? "ADSB.fi" : "ADSB.lol";
     const license = document.createElement("a");
-    license.href = "https://opendatacommons.org/licenses/odbl/1-0/";
-    license.textContent = "ODbL 1.0";
+    license.href = adsbfi
+      ? "https://github.com/adsbfi/opendata#terms"
+      : "https://opendatacommons.org/licenses/odbl/1-0/";
+    license.textContent = adsbfi ? "Personal, non-commercial use" : "ODbL 1.0";
     credit.replaceChildren("Aircraft data: ", source, " · ", license);
   } else credit.textContent = "Synthetic SkybyDay data · not real aircraft";
 }
@@ -879,7 +887,11 @@ historyForm.addEventListener("submit", async (event) => {
     const range = normalizeHistoryRange(historyStart.value, historyEnd.value);
     const result = await fetchHistory(
       historyIcao.value.trim().toLowerCase(),
-      historySource.value === "adsblol" ? "adsblol" : "synthetic",
+      historySource.value === "adsbfi"
+        ? "adsbfi"
+        : historySource.value === "adsblol"
+          ? "adsblol"
+          : "synthetic",
       range.start,
       range.end,
       fetch,

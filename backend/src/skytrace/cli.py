@@ -10,7 +10,8 @@ import httpx
 from pydantic import ValidationError
 
 from skytrace.config import Settings
-from skytrace.providers.adsblol import ADSBLOL_SOURCE, AdsbLolProvider
+from skytrace.providers.adsbfi import AdsbFiProvider
+from skytrace.providers.adsblol import AdsbLolProvider
 from skytrace.providers.base import AircraftProvider
 from skytrace.providers.synthetic import SyntheticProvider
 from skytrace.services.ingestion import IngestionService
@@ -22,8 +23,9 @@ async def check(settings: Settings, capture_dir: Path | None) -> int:
         limits=httpx.Limits(max_connections=1, max_keepalive_connections=1)
     ) as client:
         provider: AircraftProvider
-        if settings.provider == "adsblol":
-            provider = AdsbLolProvider(
+        if settings.provider != "synthetic":
+            live_provider = AdsbFiProvider if settings.provider == "adsbfi" else AdsbLolProvider
+            provider = live_provider(
                 client, max_snapshot_age_seconds=settings.max_snapshot_age_seconds
             )
         else:
@@ -39,7 +41,7 @@ async def check(settings: Settings, capture_dir: Path | None) -> int:
                 capture = provider.last_response
                 (capture_dir / "response-body.raw").write_bytes(capture.body)
                 metadata = {
-                    "source": ADSBLOL_SOURCE.model_dump(mode="json"),
+                    "source": provider.attribution.model_dump(mode="json"),
                     "response": capture.metadata.model_dump(mode="json"),
                     "note": (
                         "Unmodified response body when read; "
@@ -56,7 +58,7 @@ async def check(settings: Settings, capture_dir: Path | None) -> int:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--provider", choices=("synthetic", "adsblol"), help="Override SKYTRACE_PROVIDER"
+        "--provider", choices=("synthetic", "adsblol", "adsbfi"), help="Override SKYTRACE_PROVIDER"
     )
     parser.add_argument("--capture-dir", type=Path, help="Save this check in a NEW local directory")
     args = parser.parse_args()

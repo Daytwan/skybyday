@@ -12,6 +12,7 @@ from fastapi import FastAPI
 from skytrace.api import router
 from skytrace.config import Settings
 from skytrace.history import HistoryStore
+from skytrace.providers.adsbfi import AdsbFiProvider
 from skytrace.providers.adsblol import AdsbLolProvider
 from skytrace.providers.base import AircraftProvider
 from skytrace.providers.synthetic import SyntheticProvider
@@ -83,11 +84,12 @@ def create_app(
         ):
             selected = provider
             if selected is None:
+                live_provider = AdsbFiProvider if settings.provider == "adsbfi" else AdsbLolProvider
                 selected = (
-                    AdsbLolProvider(
+                    live_provider(
                         client, max_snapshot_age_seconds=settings.max_snapshot_age_seconds
                     )
-                    if settings.provider == "adsblol"
+                    if settings.provider != "synthetic"
                     else SyntheticProvider()
                 )
             history = HistoryStore(settings)
@@ -159,7 +161,7 @@ def create_app(
     app = FastAPI(
         title="SkybyDay",
         version=version("skytrace"),
-        description="Shared live ADSB.lol ingestion; explicit synthetic mode for offline use.",
+        description="Shared live aircraft ingestion; explicit synthetic mode for offline use.",
         lifespan=lifespan,
         docs_url="/api/docs",
         redoc_url=None,

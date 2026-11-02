@@ -63,7 +63,8 @@ function safeUrl(value: unknown): string | null {
 }
 
 function source(value: unknown): Source {
-  if (value === "synthetic" || value === "adsblol") return value;
+  if (value === "synthetic" || value === "adsblol" || value === "adsbfi")
+    return value;
   return invalid();
 }
 
