@@ -1,0 +1,68 @@
+{
+  "type": "snapshot",
+  "schema_version": 1,
+  "stream_id": "artificial-fixture-only",
+  "sequence": 1,
+  "tracking": {
+    "coverage_kind": "sampled_hubs",
+    "coverage_area_count": 1
+  },
+  "data": {
+    "emitted_at": "2026-01-01T00:00:00Z",
+    "aircraft": [
+      {
+        "icao24": "000001",
+        "callsign": "ABC01",
+        "provider_timestamp": "2025-12-31T23:59:30Z",
+        "received_at": "2025-12-31T23:59:30Z",
+        "position_observed_at": "2025-12-31T23:59:30Z",
+        "last_message_at": "2025-12-31T23:59:30Z"
+      },
+      {
+        "icao24": "000002",
+        "callsign": "ABC02",
+        "provider_timestamp": "2025-12-31T23:59:30Z",
+        "received_at": "2025-12-31T23:59:30Z",
+        "position_observed_at": "2025-12-31T23:59:30Z",
+        "last_message_at": "2025-12-31T23:59:30Z"
+      },
+      {
+        "icao24": "000003",
+        "callsign": "BAD",
+        "provider_timestamp": "2025-12-31T23:59:30Z",
+        "received_at": "2025-12-31T23:59:30Z",
+        "position_observed_at": "2025-12-31T23:59:30Z",
+        "last_message_at": "2025-12-31T23:59:30Z"
+      },
+      {
+        "icao24": "000004",
+        "callsign": "ABC04",
+        "provider_timestamp": "2025-12-31T23:59:30Z",
+        "received_at": "2025-12-31T23:59:30Z",
+        "position_observed_at": "2025-12-31T23:59:30Z",
+        "last_message_at": "2025-12-31T23:59:30Z"
+      },
+      {
+        "icao24": "000005",
+        "callsign": "ABC05",
+        "provider_timestamp": "2025-12-31T23:59:30Z",
+        "received_at": "2025-12-31T23:59:30Z",
+        "position_observed_at": "2025-12-31T23:59:30Z",
+        "last_message_at": "2025-12-31T23:59:30Z"
+      }
+    ],
+    "collected_aircraft_count": 6,
+    "published_aircraft_count": 5,
+    "truncated_aircraft_count": 1,
+    "aircraft_capacity": 5,
+    "active_scope_id": "artificial",
+    "coverage": [
+      {
+        "id": "artificial",
+        "stale": false,
+        "last_success_at": "2025-12-31T23:59:30Z",
+        "freshness_age_seconds": 30
+      }
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.coverage
+htmlcov/
+
+# Frontend and build output
+node_modules/
+frontend/public/cesium/
+dist/
+*.tsbuildinfo
+coverage/
+
+# Local telemetry, evidence, and editor files
+data/
+artifacts/
+output/playwright/
+*.log
+*.swp
+*.swo
+.DS_Store
+.agents/
+.codex/
+
+# Local AirLabs credential screenshot
+/airLabs_apiKey.png

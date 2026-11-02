@@ -1,0 +1,1 @@
+These five-row capture fixtures are entirely artificial. They exercise every route category, a leading-zero callsign lookup, missing provenance and one omitted record. They are not observations, eligible source samples or product coverage evidence.

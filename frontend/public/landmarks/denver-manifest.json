@@ -1,0 +1,9 @@
+{
+  "source": "https://www.openstreetmap.org/copyright",
+  "license": "ODbL 1.0",
+  "snapshot_at": "2026-10-21T04:04:21Z",
+  "sha256": "e238308da3dd7bb7d56444faf8bb73a434c30a5e64fb74835a0a8b800b23e9db",
+  "buildings": 1697,
+  "peaks": 247,
+  "limitations": "Partial downtown footprints with OSM-reported heights; simplified flat-roof volumes, not surveyed or photorealistic models. Peaks are named reference points, not elevation measurements."
+}

@@ -1,0 +1,33 @@
+{
+  "name": "skybyday-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test src/network/*.test.ts src/aircraft/*.test.ts src/cesium/*.test.ts src/ui/*.test.ts",
+    "lint": "biome check .",
+    "format": "biome check --write .",
+    "check": "npm run lint && npm run typecheck && npm test",
+    "assets": "node scripts/copy-cesium.mjs",
+    "predev": "npm run assets",
+    "prebuild": "npm run assets",
+    "prepreview": "npm run assets"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15",
+    "@types/node": "^24.0.0",
+    "typescript": "~7.0.2",
+    "vite": "^8.3.4"
+  },
+  "dependencies": {
+    "cesium": "1.146.0"
+  }
+}

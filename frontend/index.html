@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111c20" />
+    <meta name="description" content="SkybyDay — a closer look at the skies. Live aircraft, terrain and airport detail on an open 3D globe." />
+    <title>SkybyDay · A closer look at the skies</title>
+    <link rel="icon" type="image/svg+xml" href="/skybyday.svg" />
+  </head>
+  <body>
+    <a class="skip-link" href="#aircraft-filter">Skip to aircraft search</a>
+    <header class="masthead">
+      <a class="wordmark" href="/" aria-label="SkybyDay home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 27 27 5M7 9l20-4-4 20M5 19l8 8" /></svg>SkybyDay<span class="edition">FLIGHT EXPLORER</span></a>
+      <details class="feed-details">
+        <summary><span class="status-dot" id="feed-dot"></span><span id="source-label">Connecting</span><span class="chevron" aria-hidden="true">⌄</span></summary>
+        <div class="feed-popover"><h2>Data connection</h2><p id="source-status" role="status">Waiting for the local service.</p><p id="connection-status" role="status">Connecting…</p><button id="reconnect" type="button">Reconnect</button><p class="control-note">One shared feed. Reconnecting does not request new aircraft data.</p><a href="/api/docs" target="_blank" rel="noopener">API documentation ↗</a></div>
+      </details>
+      <a class="header-caption" href="https://github.com/Daytwan/skybyday" target="_blank" rel="noopener">Project demo · View source ↗</a>
+    </header>
+    <main class="workspace">
+      <aside class="explorer" aria-label="Flight explorer">
+        <div class="panel-tabs" aria-label="Explore SkybyDay" role="tablist">
+          <button id="tab-traffic" type="button" role="tab" aria-selected="true" aria-controls="panel-traffic" data-panel="traffic">Traffic</button>
+          <button id="tab-map" type="button" role="tab" aria-selected="false" aria-controls="panel-map" tabindex="-1" data-panel="map">Map</button>
+          <button id="tab-weather" type="button" role="tab" aria-selected="false" aria-controls="panel-weather" tabindex="-1" data-panel="weather">Weather</button>
+          <button id="tab-replay" type="button" role="tab" aria-selected="false" aria-controls="panel-replay" tabindex="-1" data-panel="replay">Replay</button>
+        </div>
+        <section id="panel-traffic" role="tabpanel" aria-labelledby="tab-traffic" class="panel traffic-panel">
+          <div class="panel-intro"><span class="eyebrow">IN YOUR AIRSPACE</span><div class="traffic-heading"><h1 id="area-name">Denver / DEN</h1><span class="traffic-total" id="aircraft-count">—</span></div><p id="area-description" class="mono">60 NM around Denver International</p></div>
+          <div class="coverage-controls"><label class="stack-control" for="coverage-view">Explore tracked region<select id="coverage-view"><option value="den">Denver / DEN</option></select></label><details><summary>Traffic coverage &amp; freshness</summary><p id="coverage-policy" class="control-note"></p><ul id="coverage-regions" class="coverage-regions"></ul><p id="route-coverage" class="control-note" role="status">Loading fleet route references…</p></details></div><div class="aircraft-filters"><label class="sr-only" for="aircraft-filter">Search aircraft by callsign, ICAO24 or type</label><div class="search-field"><span aria-hidden="true">⌕</span><input id="aircraft-filter" type="search" maxlength="64" placeholder="Find an aircraft…" autocomplete="off" /><kbd aria-hidden="true">/</kbd></div><div class="filter-line"><label class="check-control"><input id="fresh-only" type="checkbox" /> Fresh only</label><span id="list-count" class="mono">0 / 0</span></div></div>
+          <div class="roster-scroll"><ul id="aircraft-list" aria-label="Aircraft"></ul><p id="list-note" class="empty-state">Connecting to your aircraft feed…</p></div>
+          <div class="feed-summary"><p id="snapshot-status">Waiting for observations.</p><p id="snapshot-age">No successful fetch yet.</p><p id="motion-status">Latest observations</p></div>
+        </section>
+        <section id="panel-map" role="tabpanel" aria-labelledby="tab-map" class="panel settings-panel" hidden>
+          <div class="panel-intro"><span class="eyebrow">THE WORLD BELOW</span><h1>Map & display</h1><p>Shape your view of the airspace.</p></div>
+          <fieldset><legend>Map layers</legend><label class="stack-control" for="map-imagery">Imagery<select id="map-imagery"><option value="aerial">USGS aerial + Denver detail</option><option value="earth">NASA Earth relief · global</option><option value="offline">Offline world · bundled</option></select></label><label class="check-control"><input id="map-terrain" type="checkbox" checked /> Terrain relief</label><label class="check-control"><input id="map-airport" type="checkbox" checked /> DEN airport detail</label><label class="check-control"><input id="map-places" type="checkbox" checked /> City labels</label><label class="check-control"><input id="map-landmarks" type="checkbox" checked /> Denver buildings & peaks</label><p id="places-status" class="control-note" role="status"></p><p id="landmarks-status" class="control-note" role="status"></p><p id="map-status" class="control-note" role="status" aria-live="polite">Loading map layers…</p><button id="retry-maps" type="button" class="text-button">Retry map services ↻</button></fieldset>
+          <fieldset><legend>Places to explore</legend><div class="place-actions"><button id="airport-view" type="button"><strong>DEN</strong><span>Airport & runways</span><span aria-hidden="true">↗</span></button><button id="terminal-view" type="button"><strong>DEN</strong><span>Terminal detail</span><span aria-hidden="true">↗</span></button><button id="skyline-view" type="button"><strong>DEN</strong><span>Downtown skyline</span><span aria-hidden="true">↗</span></button><button id="civic-view" type="button"><strong>DEN</strong><span>McNichols · Civic Center</span><span aria-hidden="true">↗</span></button><button id="terrain-view" type="button"><strong>CO</strong><span>The Front Range</span><span aria-hidden="true">↗</span></button></div><p class="control-note">Camera destinations only. The live feed stays within its configured tracking area.</p></fieldset>
+          <fieldset><legend>Aircraft display</legend><label class="stack-control" for="units">Display units<select id="units"><option value="aviation">Aviation · feet & knots</option><option value="metric">Metric · metres & m/s</option></select></label><label class="stack-control" for="labels">Labels<select id="labels"><option value="selected">Selected aircraft</option><option value="all">All aircraft</option><option value="none">Off</option></select></label><label class="check-control"><input id="interpolate" type="checkbox" /> Interpolate motion</label><label class="check-control"><input id="show-altitude" type="checkbox" checked /> Show geometric height</label><label class="check-control"><input id="show-tracks" type="checkbox" /> Ground-track arrows</label><p class="control-note">Interpolation uses a delayed timeline and stops at the last known sample. Arrows show reported ground track over a fixed 4 km.</p></fieldset>
+          <details class="map-guide"><summary>Symbols & map sources</summary><p>Filled aircraft use geometric height. Outlined aircraft are projected onto the surface. Grey means stale; a ring means direction is unknown.</p><p>Symbols use known aircraft types, with a generic fallback. Direction follows true heading, then ground track. Pitch and roll are not inferred.</p><p>Aerial detail is US-focused. Terrain is approximate visual relief. The dated FAA airport overlay is for reference.</p><a href="/map-attribution.html" target="_blank" rel="noopener">Sources, dates & coverage ↗</a></details>
+        </section>
+        <section id="panel-weather" role="tabpanel" aria-labelledby="tab-weather" class="panel settings-panel" hidden>
+          <div class="panel-intro"><span class="eyebrow">AT THE AIRPORT</span><h1>Denver weather</h1><p>KDEN · National Weather Service</p></div>
+          <p id="weather-status" class="availability" role="status">Open this panel to load the latest reported observation.</p>
+          <p id="weather-description" class="weather-description"></p>
+          <dl id="weather-details" class="weather-details"></dl>
+          <button id="weather-refresh" type="button">Check observation ↻</button>
+          <p class="control-note">Shared observations refresh at most every 10 minutes. Missing values stay unknown. Weather here describes KDEN, wherever you move the globe.</p>
+          <a href="https://forecast.weather.gov/MapClick.php?lat=39.8561&lon=-104.6737" target="_blank" rel="noopener">Official Denver forecast & alerts ↗</a>
+        </section>
+        <section id="panel-replay" role="tabpanel" aria-labelledby="tab-replay" class="panel settings-panel" hidden>
+          <div class="panel-intro"><span class="eyebrow">REVISIT A FLIGHT</span><h1>History & replay</h1><p>Explore observations recorded by your local instance.</p></div>
+          <p id="history-availability" class="availability" role="status">Checking local recording…</p>
+          <form id="history-form"><label class="stack-control" for="history-icao">Aircraft ICAO24<input id="history-icao" type="text" inputmode="text" pattern="[0-9a-fA-F]{6}" maxlength="6" placeholder="Six hexadecimal characters" required /></label><label class="stack-control" for="history-source">Recorded source<select id="history-source"><option value="adsblol">ADSB.lol</option></select></label><label class="stack-control" for="history-start">From · UTC<input id="history-start" type="datetime-local" step="1" required /></label><label class="stack-control" for="history-end">To · UTC<input id="history-end" type="datetime-local" step="1" required /></label><p class="control-note">Up to 24 hours per query. Selecting a live aircraft fills its identifier here.</p><button class="primary-button" type="submit">Load recorded flight</button></form>
+          <p id="history-status" class="control-note" role="status" aria-live="polite">Choose an aircraft and a UTC time range.</p>
+          <div id="history-playback" hidden><div class="history-mode"><span class="eyebrow">REPLAY CLOCK</span><strong id="history-clock">— UTC</strong></div><label class="history-slider" for="history-slider"><span>Replay time</span><input id="history-slider" type="range" min="0" max="1" step="1" value="0" /><span id="history-range">—</span></label><div class="history-actions"><button id="history-play" type="button" class="primary-button">Play</button><button id="history-live" type="button">Return to live</button></div></div>
+        </section>
+      </aside>
+      <section class="map" aria-label="Interactive aircraft globe">
+        <div id="globe"></div>
+        <div class="map-heading"><span class="eyebrow">REGIONAL OBSERVATIONS</span><p id="coverage-area">60 NM around Denver</p></div>
+        <p id="map-error" class="map-error" role="alert" hidden></p>
+        <p id="feed-notice" class="feed-notice" role="status" hidden></p>
+        <div class="map-bottom">
+          <nav class="map-tools" aria-label="Camera controls"><button id="home" type="button" title="Return to the configured tracking area">⌖ <span>Tracking area</span></button><button id="world" type="button" title="View the Earth; traffic coverage remains regional">◎ <span>Globe</span></button><span class="tool-divider"></span><button id="north-up" type="button" title="Look straight down with north at the top" aria-label="North up">N ↑</button><button id="zoom-in" type="button" aria-label="Zoom in">+</button><button id="zoom-out" type="button" aria-label="Zoom out">−</button></nav>
+          <p class="map-hint">Drag to pan · scroll to zoom · Ctrl + drag to tilt</p>
+          <div id="map-credits"></div>
+        </div>
+        <section id="inspector" class="inspector" aria-labelledby="selection-title" hidden>
+          <div class="section-heading"><span class="eyebrow" id="selection-state">AIRCRAFT OBSERVATION</span><button id="clear-selection" type="button" class="icon-button" aria-label="Close aircraft details" hidden>×</button></div>
+          <div class="selection-heading"><img id="selection-symbol" alt="" width="50" height="50" /><div><h2 id="selection-title">Select an aircraft</h2><p id="selection-subtitle" class="mono"></p></div></div>
+          <div class="flight-route"><div><span>Published departure</span><strong id="route-origin">Unknown</strong></div><span aria-hidden="true">→</span><div><span>Published destination</span><strong id="route-destination">Unknown</strong></div></div><p id="route-status" class="control-note" role="status">Route information unavailable.</p><button id="route-retry" type="button" class="text-button" hidden>Check route again ↻</button>
+          <p id="route-map-note" class="control-note" hidden>Dashed line connects published airport references. It is not the aircraft’s flown or planned path.</p><div class="flight-metrics"><div><span>Barometric altitude</span><strong id="metric-altitude">—</strong></div><div><span>Groundspeed</span><strong id="metric-speed">—</strong></div><div><span>Ground track</span><strong id="metric-track">—</strong></div><div><span>Position age</span><strong id="metric-age">—</strong></div></div>
+          <p id="selection-note" class="control-note">Select an aircraft on the globe or in the list.</p>
+          <div class="selection-actions"><button id="locate" type="button" class="primary-button" hidden>Locate ↗</button><button id="follow" type="button" aria-pressed="false" hidden>Follow aircraft</button><button id="view-reference" type="button" hidden>View reference ↗</button><button id="selection-history" type="button">View history</button></div>
+          <details class="observation-details"><summary>Observation details</summary><dl id="aircraft-detail" hidden></dl></details>
+        </section>
+      </section>
+    </main>
+    <footer class="footer"><span id="source-credit">Waiting for aircraft data.</span><a href="/map-attribution.html" target="_blank" rel="noopener">Map sources ↗</a><span class="coverage-note">Regional observations · coverage varies</span></footer>
+    <noscript><p>JavaScript and WebGL are required for the globe. Aircraft JSON is available at /api/aircraft.</p></noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

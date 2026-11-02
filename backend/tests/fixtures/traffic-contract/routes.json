@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "stream_id": "artificial-fixture-only",
+  "sequence": 1,
+  "emitted_at": "2026-01-01T00:00:00Z",
+  "source_ready": false,
+  "tracked_aircraft": 5,
+  "two_endpoint_references": 1,
+  "multi_leg_references": 1,
+  "unknown": 2,
+  "unavailable": 1,
+  "confirmed_current_flights": 0,
+  "references": [
+    {
+      "icao24": "000001",
+      "route": {
+        "callsign": "ABC01",
+        "lookup_callsign": "ABC1",
+        "status": "reference",
+        "reason": "available",
+        "current_flight_confirmed": false,
+        "airports": [
+          {
+            "icao": "TST0",
+            "latitude": 0,
+            "longitude": 0
+          },
+          {
+            "icao": "TST1",
+            "latitude": 1,
+            "longitude": 1
+          }
+        ]
+      }
+    },
+    {
+      "icao24": "000002",
+      "route": {
+        "callsign": "ABC02",
+        "lookup_callsign": "ABC2",
+        "status": "reference",
+        "reason": "multi_leg_reference",
+        "current_flight_confirmed": false,
+        "airports": [
+          {
+            "icao": "TST0",
+            "latitude": 0,
+            "longitude": 0
+          },
+          {
+            "icao": "TST1",
+            "latitude": 1,
+            "longitude": 1
+          },
+          {
+            "icao": "TST2",
+            "latitude": 2,
+            "longitude": 2
+          }
+        ]
+      }
+    },
+    {
+      "icao24": "000003",
+      "route": {
+        "callsign": "BAD",
+        "lookup_callsign": null,
+        "status": "unknown",
+        "reason": "invalid_callsign",
+        "current_flight_confirmed": false,
+        "airports": []
+      }
+    },
+    {
+      "icao24": "000004",
+      "route": {
+        "callsign": "ABC04",
+        "lookup_callsign": "ABC4",
+        "status": "unknown",
+        "reason": "unmatched",
+        "current_flight_confirmed": false,
+        "airports": []
+      }
+    },
+    {
+      "icao24": "000005",
+      "route": {
+        "callsign": "ABC05",
+        "lookup_callsign": "ABC5",
+        "status": "unavailable",
+        "reason": "source_error",
+        "current_flight_confirmed": false,
+        "airports": []
+      }
+    }
+  ]
+}

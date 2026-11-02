@@ -1,0 +1,46 @@
+{
+  "airport": "KDEN",
+  "retrieved_at": "2026-10-20T15:48:25.064634+00:00",
+  "feature_count": 559,
+  "sha256": "2cc679da2bae5b31fcfc460c44d00a34c718a7cfb853fa0604eb4f42b635f5c7",
+  "coordinate_reference": "WGS84 longitude, latitude; no measured height",
+  "modifications": "KDEN filter; selected attributes; coordinates rounded to 7 decimal places; no topology simplification",
+  "sources": [
+    {
+      "kind": "runway",
+      "count": 6,
+      "item_url": "https://www.arcgis.com/sharing/rest/content/items/bc80e5ca97804c2fbc0c10482377adf5?f=json",
+      "query_url": "https://services6.arcgis.com/ssFJjBXIUyZDrSYZ/arcgis/rest/services/AM_Runway/FeatureServer/0/query?where=ICAO_ID+%3D+%27KDEN%27&outFields=%2A&outSR=4326&returnGeometry=true&orderByFields=OBJECTID&resultRecordCount=2000&f=geojson",
+      "description": "Current Effective Date: 0901Z 03 Sep 2026 to 0901Z 29 Oct 2026A runway is a defined rectangular area on a land airport prepared for the landing and takeoff of aircraft along its length. Runways are normally numbered in relation to their magnetic direction rounded off to the nearest 10 degrees. This geospatial vector file provides information on the airport runways as they are used for Airport Diagrams. These are captured utilizing source imagery and verified with data from official sources.",
+      "license": "The data                      provided is for public use. Reference and Sample purpose                      only.",
+      "credit": "Federal Aviation Administration, Air Traffic Organization, Mission Support Services, Aeronautical Information Services."
+    },
+    {
+      "kind": "taxiway",
+      "count": 484,
+      "item_url": "https://www.arcgis.com/sharing/rest/content/items/d1c02f9f3f7144af8ead3aca44961c59?f=json",
+      "query_url": "https://services6.arcgis.com/ssFJjBXIUyZDrSYZ/arcgis/rest/services/AM_Taxiway/FeatureServer/0/query?where=ICAO_ID+%3D+%27KDEN%27&outFields=%2A&outSR=4326&returnGeometry=true&orderByFields=OBJECTID&resultRecordCount=2000&f=geojson",
+      "description": "Current Effective Date: 0901Z 03 Sep 2026 to 0901Z 29 Oct 2026The taxiways featureclass contains movement areas associated with Airport operations. Associated text designators for the taxiways may be included in the featureclass. This geospatial vector file provides information on Taxiways as they are used for Airport Diagrams. Taxiway data is captured per the Airport Mapping data capture basic rules derived from DO-272D User Requirements for Aerodrome Mapping Information specifications (4.1.3.1 Taxiway Elements). These are captured utilizing source imagery and verified with data from official sources.",
+      "license": "The data provided is for public use. Reference and Sample purpose only.",
+      "credit": "Federal Aviation Administration, Air Traffic Organization, Mission Support Services, Aeronautical Information Services."
+    },
+    {
+      "kind": "building",
+      "count": 37,
+      "item_url": "https://www.arcgis.com/sharing/rest/content/items/7bca2c0cf31f43b89601433eda009312?f=json",
+      "query_url": "https://services6.arcgis.com/ssFJjBXIUyZDrSYZ/arcgis/rest/services/AM_Building/FeatureServer/0/query?where=ICAO_ID+%3D+%27KDEN%27&outFields=%2A&outSR=4326&returnGeometry=true&orderByFields=OBJECTID&resultRecordCount=2000&f=geojson",
+      "description": "Current Effective Date: 0901Z 03 Sep 2026 to 0901Z 29 Oct 2026The building featureclass contains buildings associated with Airport operations. These may have text descriptions for their use as described by the Airport Manager or other official source. These designators are to be printed along with the associated polygons. This geospatial vector file provides information on the airport buildings as they are used for the Airport Diagrams. These are captured utilizing source imagery and verified with data from official sources.",
+      "license": "The data provided is for public use. Reference and Sample purpose only.",
+      "credit": "Federal Aviation Administration, Air Traffic Organization, Mission Support Services, Aeronautical Information Services."
+    },
+    {
+      "kind": "apron",
+      "count": 32,
+      "item_url": "https://www.arcgis.com/sharing/rest/content/items/e74412cf6a2345eb9974fa21b6faa225?f=json",
+      "query_url": "https://services6.arcgis.com/ssFJjBXIUyZDrSYZ/arcgis/rest/services/AM_Apron/FeatureServer/0/query?where=ICAO_ID+%3D+%27KDEN%27&outFields=%2A&outSR=4326&returnGeometry=true&orderByFields=OBJECTID&resultRecordCount=2000&f=geojson",
+      "description": "Current Effective Date: 0901Z 03 Sep 2026 to 0901Z 29 Oct 2026Aprons, also called ramps, are the areas where aircraft park, load and unload. These may have designators for their use as described by the Airport Manager or other official source. This geospatial vector file provides information on the airport Aprons as they are used for Airport Diagrams. These are captured utilizing source imagery and verified with data from official sources.",
+      "license": "The data                      provided is for public use. Reference and Sample purpose                      only.",
+      "credit": "Federal Aviation Administration, Air Traffic Organization, Mission Support\n            Services, Aeronautical Information Services."
+    }
+  ]
+}

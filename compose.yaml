@@ -1,0 +1,23 @@
+name: skytrace
+
+services:
+  db:
+    # PostgreSQL 18 uses /var/lib/postgresql as its volume root.
+    image: postgis/postgis:18-3.6
+    environment:
+      POSTGRES_DB: skytrace
+      POSTGRES_USER: skytrace
+      POSTGRES_PASSWORD: ${SKYTRACE_DB_PASSWORD:?Set SKYTRACE_DB_PASSWORD in your shell}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - history:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U skytrace -d skytrace"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  history:

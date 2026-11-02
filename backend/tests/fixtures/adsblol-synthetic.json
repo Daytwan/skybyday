@@ -1,0 +1,43 @@
+{
+  "now": 1792346400000,
+  "ctime": 1792346400000,
+  "ptime": 2,
+  "msg": "No error",
+  "total": 5,
+  "ac": [
+    {
+      "hex": "00A123",
+      "type": "adsb_icao",
+      "flight": "SKY001  ",
+      "lat": 39.9,
+      "lon": -104.7,
+      "alt_baro": 10000,
+      "alt_geom": 10500,
+      "gs": 250,
+      "track": 90,
+      "true_heading": 95,
+      "mag_heading": 88,
+      "baro_rate": -600,
+      "geom_rate": -640,
+      "roll": -5,
+      "t": "A320",
+      "seen": 3,
+      "seen_pos": 4,
+      "mlat": [],
+      "tisb": []
+    },
+    {
+      "hex": "ab00cd",
+      "type": "adsb_icao",
+      "lat": 39.8561,
+      "lon": -104.6737,
+      "alt_baro": "ground",
+      "gs": 0,
+      "seen": 1,
+      "seen_pos": 2
+    },
+    {"hex": "ac0ffe", "type": "mode_s", "flight": "   ", "seen": 1},
+    {"hex": "~123456", "type": "tisb_other", "seen": 1},
+    {"hex": "dead00", "type": "adsb_icao", "lat": 100, "lon": 0, "seen": 1}
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "type": "snapshot",
+  "schema_version": 1,
+  "stream_id": "00000000-0000-0000-0000-000000000001",
+  "sequence": 1,
+  "poller_status": "running",
+  "tracking": {
+    "area": {
+      "latitude_deg": 39.8561,
+      "longitude_deg": -104.6737,
+      "radius_nm": 60
+    },
+    "poll_interval_seconds": 30.0,
+    "stale_after_seconds": 90.0,
+    "expire_after_seconds": 300.0
+  },
+  "data": {
+    "emitted_at": "2026-10-19T12:00:00Z",
+    "source": "synthetic",
+    "status": "healthy",
+    "last_error": null,
+    "consecutive_failures": 0,
+    "last_success_at": "2026-10-19T12:00:00Z",
+    "retry_in_seconds": 30.0,
+    "batch": {
+      "source": {
+        "name": "synthetic",
+        "attribution": "Synthetic SkyTrace test data; not real aircraft",
+        "url": null,
+        "license": "MIT",
+        "license_url": null
+      },
+      "provider_timestamp": "2026-10-19T12:00:00Z",
+      "received_at": "2026-10-19T12:00:00Z",
+      "raw_record_count": 2,
+      "rejected_record_count": 0,
+      "rejections": [],
+      "http": null
+    },
+    "aircraft": [
+      {
+        "icao24": "000001",
+        "source": "synthetic",
+        "source_type": "synthetic",
+        "provider_timestamp": "2026-10-19T12:00:00Z",
+        "received_at": "2026-10-19T12:00:00Z",
+        "position_observed_at": "2026-10-19T12:00:00Z",
+        "last_message_at": "2026-10-19T12:00:00Z",
+        "callsign": "SYNTH01",
+        "latitude_deg": 39.96401844364694,
+        "longitude_deg": -104.6737,
+        "barometric_altitude_m": null,
+        "geometric_altitude_m": 3000.0,
+        "geometric_altitude_reference": "wgs84_ellipsoid",
+        "groundspeed_mps": null,
+        "ground_track_deg": null,
+        "true_heading_deg": null,
+        "magnetic_heading_deg": null,
+        "barometric_vertical_rate_mps": null,
+        "geometric_vertical_rate_mps": null,
+        "roll_deg": null,
+        "pitch_deg": null,
+        "aircraft_type": null,
+        "on_ground": null,
+        "mlat_fields": [],
+        "tisb_fields": []
+      },
+      {
+        "icao24": "000002",
+        "source": "synthetic",
+        "source_type": "synthetic",
+        "provider_timestamp": "2026-10-19T12:00:00Z",
+        "received_at": "2026-10-19T12:00:00Z",
+        "position_observed_at": "2026-10-19T12:00:00Z",
+        "last_message_at": "2026-10-19T12:00:00Z",
+        "callsign": "SYNTH02",
+        "latitude_deg": 39.676235927255085,
+        "longitude_deg": -104.6737,
+        "barometric_altitude_m": null,
+        "geometric_altitude_m": null,
+        "geometric_altitude_reference": null,
+        "groundspeed_mps": null,
+        "ground_track_deg": null,
+        "true_heading_deg": null,
+        "magnetic_heading_deg": null,
+        "barometric_vertical_rate_mps": null,
+        "geometric_vertical_rate_mps": null,
+        "roll_deg": null,
+        "pitch_deg": null,
+        "aircraft_type": null,
+        "on_ground": null,
+        "mlat_fields": [],
+        "tisb_fields": []
+      }
+    ],
+    "stale_aircraft_count": 0
+  }
+}

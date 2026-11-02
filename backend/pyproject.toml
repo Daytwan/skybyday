@@ -1,0 +1,43 @@
+[project]
+name = "skytrace"
+version = "0.1.0"
+description = "Self-hosted aircraft tracking and aviation analysis"
+requires-python = ">=3.12"
+license = "MIT"
+dependencies = [
+    "fastapi>=0.115,<1",
+    "httpx>=0.28,<1",
+    "pydantic>=2.10,<3",
+    "pydantic-settings>=2.7,<3",
+    "uvicorn>=0.34,<1",
+    "websockets>=15,<17",
+]
+
+[project.optional-dependencies]
+history = ["psycopg[binary]>=3.2,<4"]
+
+[dependency-groups]
+dev = [
+    "anyio>=4.8,<5",
+    "pytest>=8,<10",
+    "ruff>=0.9,<1",
+]
+
+[project.scripts]
+skytrace-ingest = "skytrace.cli:main"
+skytrace-history = "skytrace.history_cli:main"
+
+[build-system]
+requires = ["uv_build>=0.9,<0.13"]
+build-backend = "uv_build"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]

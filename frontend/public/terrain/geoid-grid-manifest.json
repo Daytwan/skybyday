@@ -1,0 +1,26 @@
+{
+  "generated_at": "2026-10-21T19:46:47+00:00",
+  "source": "https://geodesy.noaa.gov/api/geoid/ght",
+  "source_documentation": "https://geodesy.noaa.gov/web_services/geoid.shtml",
+  "models": {
+    "geoid12a": 12,
+    "geoid18": 14
+  },
+  "bounds_degrees": [-105.8, 39.4, -104.4, 40.1],
+  "spacing_degrees": 0.1,
+  "columns": 15,
+  "rows": 8,
+  "request_count": 240,
+  "units": "metres",
+  "height_relation": "h_NAD83(2011) = H_NAVD88 + N_geoid",
+  "maximum_service_error_m": {
+    "geoid12a": 0.002,
+    "geoid18": 0.045
+  },
+  "typescript_sha256": "498a174e4e2396c8020f5c13790634e8e4c9433851a3a324de52f8758d6cda5f",
+  "limitations": [
+    "Bilinear interpolation adds unquantified error between 0.1-degree samples.",
+    "GEOID18 is defined for NAD83(2011), not WGS84; no frame/epoch transform is applied.",
+    "GEOID12A is retained only for sources explicitly tagged with that superseded model."
+  ]
+}

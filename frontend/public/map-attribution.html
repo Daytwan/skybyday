@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Map sources · SkybyDay</title>
+  <style>
+    body { color: #dceae4; background: #10191f; font: 16px/1.7 system-ui, sans-serif; max-width: 800px; margin: 50px auto; padding: 0 24px; }
+    a { color: #9ae1cf; } h1, h2 { font-weight: 500; line-height: 1.2; } h2 { margin-top: 36px; } li { margin: 8px 0; }
+  </style>
+</head>
+<body>
+  <a href="/">← SkybyDay</a>
+  <h1>Map sources & dates</h1>
+  <p>Map layers are reference imagery and approximate relief, not live photographs or navigation charts. Aircraft observations retain their original timestamps and altitude references.</p>
+  <h2>Aerial imagery</h2>
+  <p><a href="https://basemap.nationalmap.gov/arcgis/rest/services/USGSImageryOnly/MapServer">USDA / USGS The National Map</a>. The cached service provides US aerial detail, with coarser Blue Marble / Landsat coverage at wider scales. The source describes CONUS NAIP acquisitions from 2017–2021, refreshed June 2024. SkybyDay caps requests at level 16, approximately 1.8 m per pixel at Denver; image acquisition quality and age vary.</p>
+  <p>US public-domain orthoimagery is distinct from the service's licensed Alaska SPOT imagery, which is view-only and not offered for download. SkybyDay requests visible tiles and uses normal browser caching; it does not bulk-download or redistribute this imagery.</p>
+  <h2>Global Earth relief</h2>
+  <p><a href="https://earthdata.nasa.gov/eosdis/science-system-description/eosdis-components/gibs">NASA Global Imagery Browse Services (GIBS)</a> Blue Marble Shaded Relief and Bathymetry, through its public Web Map Tile Service. SkybyDay requests visible EPSG:3857 tiles only, through level 8, within approximately ±85.0511° latitude. The bundled background remains at the polar caps. This is a fixed global visual-relief base, not live satellite imagery, local aerial detail, a navigation chart, or a claim of uniform resolution.</p>
+  <h2>Fine Denver imagery · NAIP</h2>
+  <p><a href="https://imagery.nationalmap.gov/arcgis/rest/services/USGSNAIPImagery/ImageServer">USGS / USDA NAIP</a>, public account-free service. SkybyDay requests visible export-image tiles within a bounded Denver, airport and foothills area, through zoom 18 (about 0.46 m display pixel spacing). The service describes primarily 0.6 m source imagery; resolution and acquisition age vary. Its January 2025 service notice is not an image acquisition date. NAIP source imagery is public domain. No bulk download or uniform worldwide resolution is implied.</p>
+  <h2>City labels</h2>
+  <p><a href="https://www.geonames.org/">GeoNames</a>, <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The cities500 snapshot, processed 21 October 2026 UTC, includes 236,560 named places over 500 population or administrative seats down to PPLA4. SkybyDay selects fields, splits the data into geographic chunks and prioritizes labels by population. It is an incomplete gazetteer, not every city or a guarantee of current names/populations. Zooming reveals smaller places; labels are intentionally limited to avoid overlap.</p>
+  <p><a href="/places/manifest.json">Source, processing notes, counts and hashes</a>. The derived geographic chunks are available alongside this manifest and retain CC BY 4.0 attribution.</p>
+  <h2>Denver skyline & Front Range peaks</h2>
+  <p><a href="https://services1.arcgis.com/zdB7qR0BtYrg0Xpl/arcgis/rest/services/ODC_PROP_BUILDINGOUTLINES_A/FeatureServer/111">City and County of Denver · Building Outlines 2022</a>. Municipal stereo-compiled roofprints and measured scalar heights form the downtown and DEN volumes. Different roof levels retain separate geometry. These are not complete roof surfaces, textured facades, current construction records or engineering data. Ground elevations in NAVD88 / GEOID12A are converted with a bundled NOAA geoid grid; the remaining NAD83-to-WGS84 frame approximation is documented in the terrain sources.</p>
+  <p><a href="/landmarks/denver-buildings/manifest.json">Municipal source, processing limits and chunk hashes</a>. Denver supplies this open data as-is and not for engineering purposes. Its terms remain separate from the software license.</p>
+  <p><a href="https://www.arcgis.com/home/item.html?id=c2a3283542294d0b8f93c08230668a49">McNichols Building photogrammetry · City and County of Denver</a>. A real municipal drone/Pix4D scene streams near Civic Center in online mode. Cesium converts its orthometric heights using the <a href="https://tiles.arcgis.com/tiles/GVgbJbqm8hXASVYi/arcgis/rest/services/EGM2008/ImageServer">EGM2008 geoid service</a> (National Geospatial-Intelligence Agency). This is one landmark pilot, not a photorealistic model of the entire city. Service availability and acquisition limitations apply.</p>
+  <p>© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>, ODbL 1.0. Snapshot: 21 October 2026 04:04 UTC. The bounded legacy extract contains 1,697 height-tagged footprints and 247 named peaks; this release uses its peak labels. Municipal volumes replace its simpler building display. Storeys are not converted into guessed heights.</p>
+  <p><a href="/landmarks/denver.geojson">Derived ODbL GeoJSON</a> · <a href="/landmarks/denver-manifest.json">Provenance & hash</a>. The derived data remains ODbL, separate from the software license.</p>
+  <h2>Weather & route references</h2>
+  <p><a href="https://www.weather.gov/documentation/services-web-api">National Weather Service</a>: open KDEN station observations, shared across viewers and fetched at most every ten minutes. Observation time, missing values and degraded status are retained. This is not global weather coverage.</p>
+  <p>Route references: ADSB.lol's VRS standing-data mirror; <a href="https://github.com/vradarserver/standing-data">upstream VRS data</a> is CC0; ADSB.lol publishes under ODbL. Callsign references may be incomplete or outdated and never confirm the current flight. Multi-leg entries do not establish which leg an aircraft is flying.</p>
+  <h2>Denver airport reference</h2>
+  <p>Federal Aviation Administration, Air Traffic Organization, Mission Support Services, Aeronautical Information Services. <a href="https://adds-faa.opendata.arcgis.com/">FAA Aeronautical Data Delivery System</a> airport diagram features: six runways, 484 taxiway polygons, 32 aprons and 37 buildings.</p>
+  <p>Snapshot retrieved 20 October 2026. Effective cycle: 03 September 2026 09:01 UTC to 29 October 2026 09:01 UTC. Bundled data does not update automatically. This may differ from older aerial photography.</p>
+  <p>The FAA permits public use for reference and sample purposes only. <a href="https://adds-faa.opendata.arcgis.com/pages/adds-data-disclaimer">FAA data disclaimer</a>. No current operational-status or navigation claim is made. SkybyDay filters KDEN, selects attributes, and rounds coordinates to seven decimal places. Geometry has no measured height and is draped on the displayed surface. Names come from FAA attributes; unnamed buildings are not assigned invented terminal or gate labels.</p>
+  <p><a href="/airports/den-manifest.json">Source URLs, acquisition metadata and SHA-256</a> · <a href="/airports/den.geojson">Reference GeoJSON</a>. The source data retains its own terms; the application's MIT license does not relicense it.</p>
+  <h2>Terrain</h2>
+  <p><a href="https://elevation.nationalmap.gov/arcgis/rest/services/3DEPElevation/ImageServer">USGS 3DEP</a> supplies finer close-range terrain within the Denver/Front Range detail envelope. The renderer uses mesh-aligned 129 × 129 LERC height samples through level 19, approximately 0.45 m mesh spacing at Denver at the finest level. That spacing is not a uniform source-resolution or accuracy claim. Collection dates and native resolution vary. <a href="https://geodesy.noaa.gov/GEOID/GEOID18/">NOAA NGS GEOID18</a> converts NAVD88 heights to NAD83 ellipsoid heights. A bounded interpolated geoid grid and a remaining NAD83-to-WGS84 frame/epoch approximation limit absolute alignment; do not use this display for engineering or aircraft clearance.</p>
+  <p><a href="/terrain/geoid-grid-manifest.json">Geoid sample provenance, dates and checks</a>. If fine terrain fails, the map reports the limitation and retains coarser relief.</p>
+  <p><a href="https://registry.opendata.aws/terrain-tiles/">Mapzen Terrain Tiles on AWS Open Data</a>, rendered from Terrarium PNGs with a 129 × 129 height grid per tile, through zoom 15. This is four times finer maximum display-grid spacing than the earlier 65 × 65 / zoom-14 configuration, with 16,641 decoded float samples (about 65 KiB) per tile. It is not a claim of four-times-better source data, surveyed alignment, or vertical accuracy: source resolutions and vertical datums vary. Heights are visual approximations, without a geoid correction; they must not be used to calculate aircraft clearance or above-ground altitude. Terrain is not exaggerated. Outside the Web Mercator latitude range (about ±85°), detailed relief is unavailable.</p>
+  <p><a href="https://github.com/tilezen/joerd/blob/master/docs/attribution.md">Full source notices and licenses</a> · <a href="https://github.com/tilezen/joerd/blob/master/docs/data-sources.md">Elevation data sources</a>:</p>
+  <ul>
+    <li>ArcticDEM: DEMs created from DigitalGlobe imagery; NSF awards 1043681, 1559691 and 1542736.</li>
+    <li>Australia: © Commonwealth of Australia (Geoscience Australia), 2017.</li>
+    <li>Austria: © offene Daten Österreichs – Digitales Geländemodell (DGM) Österreich.</li>
+    <li>Canada: contains information licensed under the Open Government Licence – Canada.</li>
+    <li>Europe: produced using Copernicus data and information funded by the European Union, EU-DEM layers.</li>
+    <li>Global ETOPO1: U.S. NOAA / NESDIS / NCEI.</li>
+    <li>Mexico: INEGI, Continental relief, 2016.</li>
+    <li>New Zealand: Copyright 2011 Crown copyright, Land Information New Zealand and the New Zealand Government. All rights reserved.</li>
+    <li>Norway: © Kartverket.</li>
+    <li>United Kingdom: © Environment Agency copyright and/or database right 2015. All rights reserved.</li>
+    <li>United States 3DEP, global GMTED2010 and SRTM: courtesy of the U.S. Geological Survey.</li>
+  </ul>
+  <h2>Offline map & aircraft symbols</h2>
+  <p>Natural Earth II: public-domain world imagery, bundled with CesiumJS. Offline world mode makes no external imagery or terrain requests. DEN geometry and aircraft silhouettes are also bundled locally.</p>
+  <p>Aircraft silhouettes are original SkybyDay vector artwork (MIT). A small exact ICAO type-code lookup chooses a visual class. Unknown types use a generic aircraft. These are symbols, not scale models or inferred aircraft dimensions.</p>
+</body>
+</html>
