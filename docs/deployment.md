@@ -19,6 +19,15 @@ cd skybyday-demo
 sudo bash deploy/install-service.sh demo-2026-11-01
 ```
 
+On the existing DonutMath server, which already has Nginx, Certbot, and a Certbot
+account, create the DNS record first and use this command instead. It installs
+the service, backs up Nginx configuration, adds only the SkybyDay virtual host,
+validates and reloads Nginx, and obtains an HTTPS certificate:
+
+```bash
+sudo bash deploy/install-nginx.sh demo-2026-11-01
+```
+
 The installer creates a dedicated user, installs uv and managed Python beneath
 `/opt/skybyday`, installs locked Python dependencies, records the prior release,
 and starts only the SkybyDay service. It does not edit the existing web server.
