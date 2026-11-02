@@ -10,12 +10,14 @@ def test_showcase_serves_only_build_and_preserves_api(tmp_path: Path, monkeypatc
     build = tmp_path / "dist"
     build.mkdir()
     (build / "index.html").write_text("<h1>SkybyDay demo</h1>")
+    (build / "bundle.js").write_text("/* bundled app */" * 200)
     (tmp_path / ".env").write_text("private")
     monkeypatch.setenv("SKYBYDAY_STATIC_DIR", str(build))
     monkeypatch.setenv("SKYTRACE_PROVIDER", "synthetic")
     monkeypatch.chdir(build)
     with TestClient(create_app()) as client:
         assert client.get("/").text == "<h1>SkybyDay demo</h1>"
+        assert client.get("/bundle.js").headers["content-encoding"] == "gzip"
         assert client.get("/api/health").json()["telemetry"] == "synthetic"
         assert client.get("/api/history/status").json()["enabled"] is False
         assert client.get("/.env").status_code == 404

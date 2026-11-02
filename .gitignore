@@ -25,6 +25,7 @@ coverage/
 data/
 artifacts/
 output/playwright/
+.playwright-cli/
 *.log
 *.swp
 *.swo

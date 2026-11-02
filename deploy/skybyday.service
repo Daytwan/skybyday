@@ -16,7 +16,7 @@ Environment=SKYTRACE_PROVIDER=adsblol
 Environment=SKYTRACE_COVERAGE_PRESET=den
 Environment=SKYTRACE_AIRLABS_MODE=off
 Environment=SKYTRACE_HISTORY_ENABLED=false
-Environment=SKYTRACE_WS_ALLOWED_ORIGINS=["https://fly.donutmath.com"]
+Environment='SKYTRACE_WS_ALLOWED_ORIGINS=["https://fly.donutmath.com"]'
 ExecStart=/opt/skybyday/current/backend/.venv/bin/uvicorn skytrace.demo:create_app --factory --host 127.0.0.1 --port 8091 --workers 1 --ws websockets-sansio --ws-max-size 1024 --timeout-graceful-shutdown 10 --no-access-log
 Restart=on-failure
 RestartSec=35

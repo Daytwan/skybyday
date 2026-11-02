@@ -6,6 +6,26 @@ HTTPS for `fly.donutmath.com`. No database or paid API key is required.
 
 ## Prepare a release
 
+The easiest installation uses the built `skybyday-demo.tar.gz` from
+[GitHub Releases](https://github.com/Daytwan/skybyday/releases). It contains the
+frontend build and public source, so the server does not need Node.js:
+
+```bash
+curl --fail --location -o skybyday-demo.tar.gz \
+  https://github.com/Daytwan/skybyday/releases/latest/download/skybyday-demo.tar.gz
+mkdir skybyday-demo
+tar -xzf skybyday-demo.tar.gz -C skybyday-demo
+cd skybyday-demo
+sudo bash deploy/install-service.sh demo-2026-11-01
+```
+
+The installer creates a dedicated user, installs uv and managed Python beneath
+`/opt/skybyday`, installs locked Python dependencies, records the prior release,
+and starts only the SkybyDay service. It does not edit the existing web server.
+It needs outbound HTTPS and sudo access. Continue with **Domain and HTTPS**.
+
+To prepare your own release instead:
+
 On a machine with Node.js 24:
 
 ```bash
@@ -45,6 +65,11 @@ Create an A record for `fly` in the `donutmath.com` DNS zone pointing to the
 existing server. Add a separate virtual host; do not replace the main website's
 configuration. `deploy/nginx.conf` is an Nginx example. On an Apache/Caddy host,
 use the equivalent proxy to `127.0.0.1:8091` including WebSocket upgrades.
+`deploy/apache.conf` supplies the Apache equivalent. With an existing Apache
+installation, enable `proxy`, `proxy_http`, and `proxy_wstunnel`, add only that
+site, run `apachectl configtest`, reload Apache, then use
+`certbot --apache -d fly.donutmath.com`. Do not install a second web server over
+the existing one.
 
 With Nginx and Certbot already installed:
 
